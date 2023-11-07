@@ -1,16 +1,15 @@
-# natural_app
+# Sabor Natural - Aplicativo de Hortifruti
 
-A new Flutter project.
+## Descrição
 
-## Getting Started
+O Sabor Natural é um aplicativo de hortifruti que permite aos usuários visualizar produtos disponíveis e adicionar itens ao carrinho de compras. O aplicativo foi desenvolvido em Flutter e utiliza a injeção de dependência Get It, o SharedPreferences para salvar produtos e o State Pattern para gerenciar o estado.
 
-This project is a starting point for a Flutter application.
+## Funcionalidades
 
-A few resources to get you started if this is your first Flutter project:
+- **Visualização de Produtos:** Os usuários podem navegar pelos produtos disponíveis, ver detalhes, preços e imagens dos produtos.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Adicionar ao Carrinho:** Os usuários podem adicionar produtos ao carrinho de compras.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Carrinho de Compras:** Os usuários podem visualizar os produtos que adicionaram ao carrinho de compras, bem como a quantidade e o total de compras.
+
+

@@ -32,13 +32,19 @@ class HomeRespository extends ValueNotifier<RawState> {
       ),
     );
 
+    print(products);
+
     return products;
   }
 
   Future<List<String>?> returnProductsSaved() async {
     final List<String>? products = prefs.getStringList("products");
-
     return products ?? [];
+  }
+
+  Future<int> returnTotalItemsInCart() async {
+    final List<String>? products = await returnProductsSaved();
+    return products?.length ?? 0;
   }
 
   Future<int> addItemToCart(int index, int id, int quantity) async {

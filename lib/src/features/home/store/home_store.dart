@@ -28,7 +28,7 @@ class HomeStore extends ValueNotifier<RawState> {
       isFirstFetch: isFirstFetch,
     );
 
-    final int totalProducts = products.length;
+    final int totalProducts = await homeRespository.returnTotalItemsInCart();
 
     await Future.delayed(
       const Duration(milliseconds: 500),
