@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:natural_app/init.dart';
 import 'package:natural_app/src/features/home/state/home_state.dart';
 import 'package:natural_app/src/features/home/store/home_store.dart';
@@ -78,6 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
+              title: Text(
+                'Sabor Natural',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                ),
+              ),
+              centerTitle: true,
               leading: IconButton(
                 onPressed: () {},
                 icon: const Icon(

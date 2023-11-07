@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:natural_app/init.dart';
 import 'package:natural_app/src/features/cart/state/cart_state.dart';
 import 'package:natural_app/src/features/cart/store/cart_store.dart';
@@ -28,6 +29,13 @@ class _CartScreenState extends State<CartScreen> {
       backgroundColor: AppColors.backgroundColorSearchBar,
       appBar: AppBar(
         elevation: 0,
+        title: Text(
+          'Carrinho',
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: AppColors.primaryColor,
         actions: [
           IconButton(
