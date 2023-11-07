@@ -28,11 +28,11 @@ class HomeStore extends ValueNotifier<RawState> {
       isFirstFetch: isFirstFetch,
     );
 
-    final int total = await homeRespository.getTotalItemsInCartEvent();
+    final int totalProducts = products.length;
 
-    // await Future.delayed(
-    //   const Duration(milliseconds: 500),
-    // );
+    await Future.delayed(
+      const Duration(milliseconds: 500),
+    );
 
     if (value is SuccessState<HomeState>) {
       final state = value as SuccessState<HomeState>;
@@ -45,17 +45,16 @@ class HomeStore extends ValueNotifier<RawState> {
       value = SuccessState(
         output: HomeState.fetchProducts(
           listProducts: allProducts,
+          totalItemsInCart: totalProducts,
           showLoading: false,
-          totalItemsInCart: total,
-          
         ),
       );
     } else {
       value = SuccessState(
         output: HomeState.fetchProducts(
           listProducts: products,
+          totalItemsInCart: totalProducts,
           showLoading: false,
-          totalItemsInCart: total,
         ),
       );
     }

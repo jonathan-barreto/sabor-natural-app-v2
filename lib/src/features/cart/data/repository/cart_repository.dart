@@ -15,7 +15,7 @@ class CartRepository {
   });
 
   Future<List<ProductModel>> fetchProducts() async {
-    final List<String>? products = prefs.getStringList('products');
+    final List<String>? products = prefs.getStringList("products");
 
     final List<ProductCartModel> productsCartModel = [];
 
@@ -40,7 +40,7 @@ class CartRepository {
     };
 
     final response = await dio.post(
-      'http://127.0.0.1:8000/api/products/',
+      "http://127.0.0.1:8000/api/products/",
       data: jsonEncode(data),
     );
 
@@ -56,5 +56,7 @@ class CartRepository {
     return productsModel;
   }
 
-
+  void clearProducts() async {
+    await prefs.remove("products");
+  }
 }

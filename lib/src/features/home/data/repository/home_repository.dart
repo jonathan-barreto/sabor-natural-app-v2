@@ -20,9 +20,8 @@ class HomeRespository extends ValueNotifier<RawState> {
   Future<List<ProductModel>> fetchProducts({required bool isFirstFetch}) async {
     if (url == null) return [];
 
-    var response = await dio.get(url!);
+    final response = await dio.get(url!);
     final List<ProductModel> products = [];
-
     final productResponse = ProductResponse.fromJson(response.data);
 
     url = productResponse.nextPageUrl;
@@ -37,61 +36,47 @@ class HomeRespository extends ValueNotifier<RawState> {
   }
 
   Future<List<String>?> returnProductsSaved() async {
-    final List<String>? products = prefs.getStringList('products');
+    final List<String>? products = prefs.getStringList("products");
 
     return products ?? [];
-  }
-
-  Future<int> getTotalItemsInCartEvent() async {
-    final List<String>? productsSaved = await returnProductsSaved();
-
-    return productsSaved?.length ?? 0;
   }
 
   Future<int> addItemToCart(int index, int id, int quantity) async {
     final List<String>? productsSaved = await returnProductsSaved();
 
-    ProductCartModel productCartModel = ProductCartModel(
+    final productCartModel = ProductCartModel(
       id: id,
       quantity: quantity,
     );
 
     if (productsSaved == null) {
       await prefs.setStringList(
-        'products',
+        "products",
         [jsonEncode(productCartModel.toJson())],
       );
+    } else {
+      bool foundProduct = false;
 
-      final int totalItemsInCart = await getTotalItemsInCartEvent();
+      for (int i = 0; i < productsSaved.length; i++) {
+        final productJson = ProductCartModel.fromJson(
+          jsonDecode(productsSaved[i]),
+        );
 
-      return totalItemsInCart;
-    }
+        if (productCartModel.id == productJson.id) {
+          foundProduct = true;
 
-    for (var i = 0; i < productsSaved.length; i++) {
-      ProductCartModel savedProductJson = ProductCartModel.fromJson(
-        jsonDecode(productsSaved[i]),
-      );
+          productCartModel.quantity += productJson.quantity;
+          productsSaved[i] = jsonEncode(productCartModel);
+        }
+      }
 
-      if (productCartModel.id == savedProductJson.id) {
-        productCartModel.quantity =
-            productCartModel.quantity + savedProductJson.quantity;
-
-        productsSaved[i] = jsonEncode(productCartModel);
-
-        await prefs.setStringList('products', productsSaved);
-
-        int totalItemsInCart = await getTotalItemsInCartEvent();
-
-        return totalItemsInCart;
+      if (!foundProduct) {
+        productsSaved.add(jsonEncode(productCartModel));
       }
     }
 
-    productsSaved.add(jsonEncode(productCartModel));
+    await prefs.setStringList("products", productsSaved ?? []);
 
-    await prefs.setStringList('products', productsSaved);
-
-    int totalItemsInCart = await getTotalItemsInCartEvent();
-
-    return totalItemsInCart;
+    return productsSaved?.length ?? 0;
   }
 }

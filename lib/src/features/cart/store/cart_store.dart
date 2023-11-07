@@ -28,4 +28,8 @@ class CartStore extends ValueNotifier<RawState> {
       );
     }
   }
+
+  void clearProducts() {
+    cartRepository.clearProducts();
+  }
 }

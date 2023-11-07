@@ -29,6 +29,16 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.primaryColor,
+        actions: [
+          IconButton(
+            onPressed: () {
+              cartStore.clearProducts();
+            },
+            icon: const Icon(
+              Icons.delete,
+            ),
+          )
+        ],
       ),
       body: ValueListenableBuilder(
         valueListenable: cartStore,
