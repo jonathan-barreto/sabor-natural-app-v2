@@ -12,11 +12,30 @@ O Sabor Natural é um aplicativo de hortifruti que permite aos usuários visuali
 
 - **Carrinho de Compras:** Os usuários podem visualizar os produtos que adicionaram ao carrinho de compras, bem como a quantidade e o total de compras.
 
+## Capturas de Tela
 
-- Tela inicial.
+- Tela inicial:
   
 ![Screenshot 1](screenshots/tela1.png)
 
-- Tela do carrinho.
+- Tela do carrinho:
   
 ![Screenshot 2](screenshots/tela2.png)
+
+## Em Desenvolvimento
+
+O aplicativo Sabor Natural ainda está em fase de desenvolvimento. As próximas funcionalidades planejadas incluem:
+
+- Tela de Login/Cadastro.
+- Cadastro de Endereço.
+- Filtros de Produtos.
+- Remoção de Itens do Carrinho.
+- Processo de Pagamento Pelo Aplicativo.
+
+## Requisitos
+
+Em breve
+
+## Instalação
+
+Em breve
