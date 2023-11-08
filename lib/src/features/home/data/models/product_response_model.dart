@@ -9,7 +9,7 @@ class ProductResponse {
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     return ProductResponse(
-      nextPageUrl: json["next_page_url"],
+      nextPageUrl: json["links"]["next"],
       products: json["data"],
     );
   }

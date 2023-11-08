@@ -25,14 +25,12 @@ class HomeRespository extends ValueNotifier<RawState> {
     final productResponse = ProductResponse.fromJson(response.data);
 
     url = productResponse.nextPageUrl;
-
+  
     products.addAll(
       productResponse.products.map(
         (e) => ProductModel.fromJson(e),
       ),
     );
-
-    print(products);
 
     return products;
   }
