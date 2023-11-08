@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:natural_app/src/features/home/widgets/profile_header.dart';
-import 'package:natural_app/src/features/home/widgets/search_bar_custom.dart';
+
+import 'package:natural_app/src/helpers/colors/app_colors.dart';
 
 class UserProfileSearchList extends StatelessWidget {
-  final SearchController controller;
-  final void Function(String) updateParent;
-
-  const UserProfileSearchList({
-    super.key,
-    required this.controller,
-    required this.updateParent,
-  });
+  const UserProfileSearchList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +18,35 @@ class UserProfileSearchList extends StatelessWidget {
           child: Column(
             children: [
               const ProfileHeader(),
-              SearchBarCustom(
-                controller: controller,
-                updateParent: (text) => controller.closeView(text),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: TextField(
+                  cursorColor: AppColors.secondColorText,
+                  style: GoogleFonts.poppins(
+                    color: AppColors.secondColorText,
+                  ),
+                  decoration: InputDecoration(
+                    label: Text(
+                      'Pesquisar...',
+                      style: GoogleFonts.poppins(
+                        color: AppColors.secondColorText,
+                      ),
+                    ),
+                    prefixIcon: const Icon(Icons.search),
+                    prefixIconColor: AppColors.secondColorText,
+                    border: const OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.secondColorText,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.secondColorText,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

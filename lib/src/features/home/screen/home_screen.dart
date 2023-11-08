@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeStore homeStore = getIt<HomeStore>();
   final SearchController controller = SearchController();
   final ScrollController _scrollController = ScrollController();
+  String valueSearch = '';
 
   @override
   void initState() {
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               elevation: 0,
               title: Text(
-                'Sabor Natural',
+                valueSearch,
                 style: GoogleFonts.poppins(
                   color: Colors.white,
                 ),
@@ -132,14 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomScrollView(
                   controller: _scrollController,
                   slivers: [
-                    UserProfileSearchList(
-                      controller: controller,
-                      updateParent: (text) {
-                        setState(() {
-                          controller.closeView(text);
-                        });
-                      },
-                    ),
+                    const UserProfileSearchList(),
                     SliverGridCustom(
                       products: value.output.products,
                       incrementFunction: incrementFunction,
