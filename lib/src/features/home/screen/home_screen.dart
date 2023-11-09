@@ -40,26 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void incrementFunction(int index) {
-    homeStore.incrementQuantityProduct(
-      index: index,
-    );
-  }
-
-  void decrementFunction(int index) {
-    homeStore.decrementQuantityProduct(
-      index: index,
-    );
-  }
-
-  void addItemToCart(int index, int id, int quantity) {
-    homeStore.addItemToCart(
-      index: index,
-      id: id,
-      quantity: quantity,
-    );
-  }
-
   void clearRequest() {
     String url = 'http://127.0.0.1:8000/api/products';
     homeStore.fetchProducts(fetchRequest: true, url: url);
@@ -160,10 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 )
                               : SliverGridCustom(
+                                  store: homeStore,
                                   products: value.output.products,
-                                  incrementFunction: incrementFunction,
-                                  decrementFunction: decrementFunction,
-                                  addItemToCart: addItemToCart,
                                 )
                         ],
                       ),

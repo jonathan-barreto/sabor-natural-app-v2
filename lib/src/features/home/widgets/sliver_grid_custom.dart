@@ -1,23 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:natural_app/src/features/home/data/models/product_model.dart';
+import 'package:natural_app/src/features/home/store/home_store.dart';
 import 'package:natural_app/src/features/home/widgets/product_list_item.dart';
 import 'package:natural_app/src/features/home/widgets/row_button_store.dart';
 import 'package:natural_app/src/helpers/colors/app_colors.dart';
 import 'package:natural_app/src/helpers/constants/constants.dart';
 
 class SliverGridCustom extends StatelessWidget {
+  final HomeStore store;
   final List<ProductModel> products;
-  final Function(int) incrementFunction;
-  final Function(int) decrementFunction;
-  final Function(int, int, int) addItemToCart;
 
   const SliverGridCustom({
     super.key,
+    required this.store,
     required this.products,
-    required this.incrementFunction,
-    required this.decrementFunction,
-    required this.addItemToCart,
   });
 
   @override
@@ -63,10 +60,8 @@ class SliverGridCustom extends StatelessWidget {
                     const Divider(),
                     RowButtonStore(
                       index: index,
+                      store: store,
                       product: product,
-                      incrementFunction: incrementFunction,
-                      decrementFunction: decrementFunction,
-                      addItemToCart: addItemToCart,
                     ),
                   ],
                 ),

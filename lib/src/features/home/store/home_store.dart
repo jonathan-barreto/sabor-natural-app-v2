@@ -77,7 +77,7 @@ class HomeStore extends ValueNotifier<RawState> {
     }
   }
 
-  void incrementQuantityProduct({required int index}) {
+  void incrementQuantityProduct(int index) {
     final state = value as SuccessState<HomeState>;
 
     if (value is SuccessState<HomeState>) {
@@ -91,7 +91,7 @@ class HomeStore extends ValueNotifier<RawState> {
     }
   }
 
-  void decrementQuantityProduct({required int index}) {
+  void decrementQuantityProduct(int index) {
     final state = value as SuccessState<HomeState>;
 
     if (value is SuccessState<HomeState>) {
@@ -107,11 +107,7 @@ class HomeStore extends ValueNotifier<RawState> {
     }
   }
 
-  void addItemToCart({
-    required int index,
-    required int id,
-    required int quantity,
-  }) async {
+  void addItemToCart(int index, int id, int quantity) async {
     final state = value as SuccessState<HomeState>;
 
     final int total = await homeRespository.addItemToCart(index, id, quantity);

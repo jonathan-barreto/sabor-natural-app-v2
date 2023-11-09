@@ -68,7 +68,7 @@ class RowProductsCart extends StatelessWidget {
                         ' / ${product.unit}',
                         style: GoogleFonts.poppins(
                           color: AppColors.secondColorText,
-                          fontSize: 15,
+                          fontSize: 10,
                         ),
                       ),
                     ],
