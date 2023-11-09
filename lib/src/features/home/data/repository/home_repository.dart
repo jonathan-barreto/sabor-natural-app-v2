@@ -17,7 +17,11 @@ class HomeRespository extends ValueNotifier<RawState> {
   HomeRespository({required this.dio, required this.prefs})
       : super(const IdleState());
 
-  Future<List<ProductModel>> fetchProducts({required bool isFirstFetch}) async {
+  Future<List<ProductModel>> fetchProducts({String? urlRequest}) async {
+    if (urlRequest != null) {
+      url = urlRequest;
+    }
+
     if (url == null) return [];
 
     final response = await dio.get(url!);
@@ -25,7 +29,7 @@ class HomeRespository extends ValueNotifier<RawState> {
     final productResponse = ProductResponse.fromJson(response.data);
 
     url = productResponse.nextPageUrl;
-  
+
     products.addAll(
       productResponse.products.map(
         (e) => ProductModel.fromJson(e),

@@ -3,9 +3,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:natural_app/src/features/home/widgets/profile_header.dart';
 
 import 'package:natural_app/src/helpers/colors/app_colors.dart';
+import 'package:natural_app/src/helpers/services/debounce_service_impl.dart';
 
 class UserProfileSearchList extends StatelessWidget {
-  const UserProfileSearchList({super.key});
+  final void Function(String) onChanged;
+  final VoidCallback onPressed;
+  final TextEditingController textController;
+  final debounce = DebounceServiceImpl();
+
+  UserProfileSearchList({
+    super.key,
+    required this.onChanged,
+    required this.onPressed,
+    required this.textController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +32,12 @@ class UserProfileSearchList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
+                  controller: textController,
+                  onChanged: (value) {
+                    debounce(() {
+                      onChanged(value);
+                    });
+                  },
                   cursorColor: AppColors.secondColorText,
                   style: GoogleFonts.poppins(
                     color: AppColors.secondColorText,
@@ -34,6 +51,16 @@ class UserProfileSearchList extends StatelessWidget {
                     ),
                     prefixIcon: const Icon(Icons.search),
                     prefixIconColor: AppColors.secondColorText,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        textController.clear();
+                        onPressed();
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                      ),
+                    ),
+                    suffixIconColor: AppColors.secondColorText,
                     border: const OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(

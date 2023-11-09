@@ -9,7 +9,11 @@ class HomeStore extends ValueNotifier<RawState> {
 
   HomeStore({required this.homeRespository}) : super(const IdleState());
 
-  Future<void> fetchProducts({required bool isFirstFetch}) async {
+  Future<void> fetchProducts({
+    bool isFirstFetch = false,
+    bool fetchRequest = false,
+    String? url,
+  }) async {
     if (isFirstFetch) {
       value = const LoadingState();
     }
@@ -17,15 +21,26 @@ class HomeStore extends ValueNotifier<RawState> {
     if (value is SuccessState<HomeState>) {
       final state = value as SuccessState<HomeState>;
 
-      value = SuccessState<HomeState>(
-        output: state.output.copyWith(
-          showLoading: true,
-        ),
-      );
+      if (fetchRequest) {
+        state.output.products.clear();
+
+        value = SuccessState<HomeState>(
+          output: state.output.copyWith(
+            productLoading: true,
+          ),
+        );
+      } else {
+        value = SuccessState<HomeState>(
+          output: state.output.copyWith(
+            productLoading: false,
+            showLoading: true,
+          ),
+        );
+      }
     }
 
     List<ProductModel> products = await homeRespository.fetchProducts(
-      isFirstFetch: isFirstFetch,
+      urlRequest: url,
     );
 
     final int totalProducts = await homeRespository.returnTotalItemsInCart();
@@ -47,6 +62,7 @@ class HomeStore extends ValueNotifier<RawState> {
           listProducts: allProducts,
           totalItemsInCart: totalProducts,
           showLoading: false,
+          productLoading: false,
         ),
       );
     } else {
@@ -55,6 +71,7 @@ class HomeStore extends ValueNotifier<RawState> {
           listProducts: products,
           totalItemsInCart: totalProducts,
           showLoading: false,
+          productLoading: false,
         ),
       );
     }

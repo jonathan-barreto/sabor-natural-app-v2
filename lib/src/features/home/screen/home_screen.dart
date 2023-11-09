@@ -17,9 +17,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeStore homeStore = getIt<HomeStore>();
-  final SearchController controller = SearchController();
+  final TextEditingController textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  String valueSearch = '';
 
   @override
   void initState() {
@@ -30,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final position = _scrollController.position;
 
       if (position.pixels == position.maxScrollExtent) {
-        homeStore.fetchProducts(isFirstFetch: false);
+        homeStore.fetchProducts();
       }
     });
   }
@@ -61,6 +60,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void clearRequest() {
+    String url = 'http://127.0.0.1:8000/api/products';
+    homeStore.fetchProducts(fetchRequest: true, url: url);
+  }
+
+  void searchRequest(String search) {
+    String url = 'http://127.0.0.1:8000/api/products/name/$search';
+    homeStore.fetchProducts(fetchRequest: true, url: url);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -81,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               elevation: 0,
               title: Text(
-                valueSearch,
+                'Sabor Natural',
                 style: GoogleFonts.poppins(
                   color: Colors.white,
                 ),
@@ -128,39 +137,58 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
               backgroundColor: AppColors.primaryColor,
             ),
-            body: Stack(
+            body: Column(
               children: [
-                CustomScrollView(
-                  controller: _scrollController,
-                  slivers: [
-                    const UserProfileSearchList(),
-                    SliverGridCustom(
-                      products: value.output.products,
-                      incrementFunction: incrementFunction,
-                      decrementFunction: decrementFunction,
-                      addItemToCart: addItemToCart,
-                    )
-                  ],
-                ),
-                if (value.output.showLoading)
-                  Positioned(
-                    left: (MediaQuery.of(context).size.width / 2) - 20,
-                    bottom: 24,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: SizedBox(
-                        width: 25,
-                        height: 25,
-                        child: SizedBox(
-                          width: 10,
-                          height: 10,
-                          child: CircularProgressIndicator(
-                            color: AppColors.primaryColor,
+                Expanded(
+                  child: Stack(
+                    children: [
+                      CustomScrollView(
+                        controller: _scrollController,
+                        slivers: [
+                          UserProfileSearchList(
+                            onChanged: searchRequest,
+                            onPressed: clearRequest,
+                            textController: textController,
+                          ),
+                          value.output.productLoading
+                              ? SliverToBoxAdapter(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                )
+                              : SliverGridCustom(
+                                  products: value.output.products,
+                                  incrementFunction: incrementFunction,
+                                  decrementFunction: decrementFunction,
+                                  addItemToCart: addItemToCart,
+                                )
+                        ],
+                      ),
+                      if (value.output.showLoading)
+                        Positioned(
+                          left: (MediaQuery.of(context).size.width / 2) - 20,
+                          bottom: 24,
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: SizedBox(
+                                width: 10,
+                                height: 10,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                    ],
                   ),
+                )
               ],
             ),
           );
