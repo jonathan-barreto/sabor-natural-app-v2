@@ -19,57 +19,64 @@ class SliverGridCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid.builder(
-      itemCount: products.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
-        childAspectRatio: (200 / 300),
-      ),
-      itemBuilder: (context, index) {
-        final ProductModel product = products[index];
-        return Card(
-          child: Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: CachedNetworkImage(
-                    width: 100,
-                    imageUrl: ConstantsUrls.fetchImage + product.image,
-                    placeholder: (context, url) => Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
+    return products.isEmpty
+        ? const SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: Text('Carrinho está vazio'),
+            ),
+          )
+        : SliverGrid.builder(
+            itemCount: products.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              childAspectRatio: (200 / 300),
+            ),
+            itemBuilder: (context, index) {
+              final ProductModel product = products[index];
+              return Card(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: CachedNetworkImage(
+                          width: 100,
+                          imageUrl: ConstantsUrls.fetchImage + product.image,
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                          ),
+                        ),
                       ),
                     ),
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.error,
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ProductListItem(
-                      name: product.name,
-                      unit: product.unit,
-                      price: product.price,
-                    ),
-                    const Divider(),
-                    RowButtonStore(
-                      index: index,
-                      store: store,
-                      product: product,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          ProductListItem(
+                            name: product.name,
+                            unit: product.unit,
+                            price: product.price,
+                          ),
+                          const Divider(),
+                          RowButtonStore(
+                            index: index,
+                            store: store,
+                            product: product,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+              );
+            },
+          );
   }
 }

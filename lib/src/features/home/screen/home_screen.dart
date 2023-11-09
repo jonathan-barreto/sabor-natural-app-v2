@@ -92,8 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/cart');
                         },
-                        icon: const Icon(
-                          Icons.store_rounded,
+                        icon: Image.asset(
+                          'assets/cart.png',
                         ),
                       ),
                       Positioned(
@@ -131,9 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             textController: textController,
                           ),
                           value.output.productLoading
-                              ? SliverToBoxAdapter(
-                                  child: Container(
-                                    alignment: Alignment.center,
+                              ? SliverFillRemaining(
+                                  hasScrollBody: false,
+                                  child: Center(
                                     child: CircularProgressIndicator(
                                       color: AppColors.primaryColor,
                                     ),

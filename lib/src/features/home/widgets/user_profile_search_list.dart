@@ -35,7 +35,11 @@ class UserProfileSearchList extends StatelessWidget {
                   controller: textController,
                   onChanged: (value) {
                     debounce(() {
-                      onChanged(value);
+                      if (value.isNotEmpty) {
+                        onChanged(value);
+                      } else {
+                        onPressed();
+                      }
                     });
                   },
                   cursorColor: AppColors.secondColorText,
@@ -53,8 +57,10 @@ class UserProfileSearchList extends StatelessWidget {
                     prefixIconColor: AppColors.secondColorText,
                     suffixIcon: IconButton(
                       onPressed: () {
-                        textController.clear();
-                        onPressed();
+                        if (textController.value.text.isNotEmpty) {
+                          textController.clear();
+                          onPressed();
+                        }
                       },
                       icon: const Icon(
                         Icons.close,

@@ -25,18 +25,23 @@ class HomeRespository extends ValueNotifier<RawState> {
     if (url == null) return [];
 
     final response = await dio.get(url!);
-    final List<ProductModel> products = [];
-    final productResponse = ProductResponse.fromJson(response.data);
 
-    url = productResponse.nextPageUrl;
+    if (response.statusCode == 200) {
+      final List<ProductModel> products = [];
+      final productResponse = ProductResponse.fromJson(response.data);
 
-    products.addAll(
-      productResponse.products.map(
-        (e) => ProductModel.fromJson(e),
-      ),
-    );
+      url = productResponse.nextPageUrl;
 
-    return products;
+      products.addAll(
+        productResponse.products.map(
+          (e) => ProductModel.fromJson(e),
+        ),
+      );
+
+      return products;
+    }
+
+    return [];
   }
 
   Future<List<String>?> returnProductsSaved() async {
