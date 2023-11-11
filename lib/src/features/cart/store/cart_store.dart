@@ -9,8 +9,8 @@ class CartStore extends ValueNotifier<RawState> {
 
   CartStore({required this.cartRepository}) : super(const IdleState());
 
-  Future<void> fetchProducts() async {
-    value = const LoadingState();
+  Future<void> fetchProducts({bool isFirstFetch = false}) async {
+    if (isFirstFetch) value = const LoadingState();
 
     await Future.delayed(
       const Duration(milliseconds: 500),
@@ -27,6 +27,19 @@ class CartStore extends ValueNotifier<RawState> {
         ),
       );
     }
+  }
+
+  void incrementQuantity(int index, List<ProductModel> products) async {
+    final productsList = await cartRepository.incrementQuantity(
+      index,
+      products,
+    );
+
+    value = SuccessState(
+      output: CartState.fetchProducts(
+        listProducts: productsList,
+      ),
+    );
   }
 
   void clearProducts() {

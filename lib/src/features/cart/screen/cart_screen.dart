@@ -20,7 +20,9 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    cartStore.fetchProducts();
+    cartStore.fetchProducts(
+      isFirstFetch: true,
+    );
   }
 
   @override
@@ -60,12 +62,17 @@ class _CartScreenState extends State<CartScreen> {
           }
 
           if (value is SuccessState<CartState>) {
-            return ListView.separated(
+            return ListView.builder(
               itemCount: value.output.products.length,
-              separatorBuilder: (context, index) => const Divider(),
               itemBuilder: (context, index) {
                 final product = value.output.products[index];
-                return RowProductsCart(product: product);
+                return RowProductsCart(
+                  product: product,
+                  increment: () => cartStore.incrementQuantity(
+                    index,
+                    value.output.products,
+                  ),
+                );
               },
             );
           }

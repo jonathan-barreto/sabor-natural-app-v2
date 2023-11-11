@@ -1,21 +1,21 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:natural_app/src/features/home/data/models/product_cart_model.dart';
 import 'package:natural_app/src/features/home/data/models/product_model.dart';
 import 'package:natural_app/src/features/home/data/models/product_response_model.dart';
-import 'package:natural_app/src/states/raw_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeRespository extends ValueNotifier<RawState> {
+class HomeRespository {
   final Dio dio;
   final SharedPreferences prefs;
 
   String? url = 'http://127.0.0.1:8000/api/products';
 
-  HomeRespository({required this.dio, required this.prefs})
-      : super(const IdleState());
+  HomeRespository({
+    required this.dio,
+    required this.prefs,
+  });
 
   Future<List<ProductModel>> fetchProducts({String? urlRequest}) async {
     if (urlRequest != null) {

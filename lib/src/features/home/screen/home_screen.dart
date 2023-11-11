@@ -107,7 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(50),
                           ),
                           child: Center(
-                            child: Text('${value.output.totalItemsInCart}'),
+                            child: Text(
+                              '${value.output.totalItemsInCart}',
+                            ),
                           ),
                         ),
                       ),

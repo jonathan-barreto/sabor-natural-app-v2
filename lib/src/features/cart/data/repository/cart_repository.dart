@@ -19,9 +19,7 @@ class CartRepository {
 
     final List<ProductCartModel> productsCartModel = [];
 
-    if (products == null) {
-      return [];
-    }
+    if (products == null) return [];
 
     productsCartModel.addAll(
       products.map(
@@ -54,6 +52,47 @@ class CartRepository {
     }
 
     return productsModel;
+  }
+
+  Future<List<String>> saveInShared({required int index}) async {
+    final List<String>? products = prefs.getStringList("products");
+
+    if (products == null) return [];
+
+    final productCart = ProductCartModel.fromJson(
+      jsonDecode(
+        products[index],
+      ),
+    );
+
+    productCart.quantity = productCart.quantity + 1;
+
+    products[index] = jsonEncode(productCart);
+
+    await prefs.setStringList("products", products);
+
+    return products;
+  }
+
+  List<ProductModel> saveInList(int index, List<ProductModel> products) {
+    final productModel = products[index];
+
+    productModel.quantity = productModel.quantity! + 1;
+
+    products[index] = productModel;
+
+    return products;
+  }
+
+  Future<List<ProductModel>> incrementQuantity(
+    int index,
+    List<ProductModel> products,
+  ) async {
+    await saveInShared(index: index);
+
+    final newProductList = saveInList(index, products);
+
+    return newProductList;
   }
 
   void clearProducts() async {

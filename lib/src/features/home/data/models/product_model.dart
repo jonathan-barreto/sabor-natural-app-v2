@@ -18,10 +18,12 @@ class ProductModel {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
+    final String price = json["price"];
+    
     return ProductModel(
       id: json["id"],
       name: json["name"],
-      price: json["price"],
+      price: price.replaceAll('.', ','),
       unit: json["unit"],
       category: json["category"],
       image: json["image"],

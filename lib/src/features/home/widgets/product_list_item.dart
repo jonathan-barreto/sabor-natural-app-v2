@@ -50,7 +50,7 @@ class ProductListItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  'R\$ ${price.replaceAll('.', ',')}',
+                  'R\$ $price',
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,

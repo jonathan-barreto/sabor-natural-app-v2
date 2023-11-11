@@ -1,137 +1,139 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:natural_app/src/features/home/data/models/product_model.dart';
 import 'package:natural_app/src/helpers/colors/app_colors.dart';
 import 'package:natural_app/src/helpers/constants/constants.dart';
 
 class RowProductsCart extends StatelessWidget {
+
   final ProductModel product;
+
+  final VoidCallback increment;
 
   const RowProductsCart({
     super.key,
+
     required this.product,
+
+    required this.increment,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Container(
-        width: double.infinity,
-        height: 100,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Center(
-                child: CachedNetworkImage(
-                  width: 60,
-                  imageUrl: ConstantsUrls.fetchImage + product.image,
-                  placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => const Icon(
-                    Icons.error,
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    product.name,
-                    style: GoogleFonts.poppins(
-                      color: AppColors.primaryColorText,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Row(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+      child: SizedBox(
+        height: 150,
+        child: Card(
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'R\$ ${product.price}',
+                        product.name,
                         style: GoogleFonts.poppins(
-                          color: AppColors.primaryColor,
-                          fontSize: 15,
+                          color: AppColors.primaryColorText,
+                          fontSize: 20,
                         ),
                       ),
-                      Text(
-                        ' / ${product.unit}',
-                        style: GoogleFonts.poppins(
-                          color: AppColors.secondColorText,
-                          fontSize: 10,
+                      CachedNetworkImage(
+                        width: 100,
+                        imageUrl: ConstantsUrls.fetchImage + product.image,
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
                         ),
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: AppColors.secondColor,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: AppColors.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.remove,
-                          ),
-                        ),
+                    Text(
+                      'R\$ ${product.price}',
+                      style: GoogleFonts.poppins(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
                     Text(
-                      '${product.quantity}',
+                      product.unit,
                       style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColorText,
+                        color: AppColors.secondColorText,
+                        fontSize: 15,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () => {},
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.add,
-                            color: AppColors.secondColor,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: AppColors.secondColor,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: AppColors.primaryColor,
+                                width: 2,
+                              ),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.remove,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    )
+                        Text(
+                          '${product.quantity}',
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColorText,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => increment(),
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
