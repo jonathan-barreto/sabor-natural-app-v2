@@ -16,7 +16,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final MainStore store = getIt<MainStore>();
-  late final List<Widget> listWidgets;
+  late final List<Widget> pages;
+  late final PageController pageController;
 
   void updateCart() {
     store.updateCart();
@@ -28,7 +29,15 @@ class _MainScreenState extends State<MainScreen> {
 
     store.initial();
 
-    listWidgets = <Widget>[
+    pageController = PageController();
+
+    pageController.addListener(() {
+      store.selectIndex(
+        index: pageController.page?.toInt() ?? 0,
+      );
+    });
+
+    pages = <Widget>[
       HomeScreen(
         name: 'Jonathan',
         onPressed: updateCart,
@@ -63,13 +72,16 @@ class _MainScreenState extends State<MainScreen> {
                     await Navigator.pushNamed(
                       context,
                       '/cart',
-                      arguments: updateCart
+                      arguments: updateCart,
                     );
                   },
                 ),
               ],
             ),
-            body: listWidgets[value.output.indexSelected!],
+            body: PageView(
+              controller: pageController,
+              children: pages,
+            ),
             bottomNavigationBar: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
@@ -91,10 +103,14 @@ class _MainScreenState extends State<MainScreen> {
                   label: '',
                 ),
               ],
-              currentIndex: value.output.indexSelected!,
+              currentIndex: value.output.indexSelected ?? 0,
               onTap: (int index) {
                 store.selectIndex(
                   index: index,
+                );
+
+                pageController.jumpToPage(
+                  index,
                 );
               },
             ),
