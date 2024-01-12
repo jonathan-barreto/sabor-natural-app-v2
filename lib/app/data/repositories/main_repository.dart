@@ -10,8 +10,6 @@ class MainRepository {
   Future<int> getTotalProductsInCart() async {
     final List<String>? items = prefs.getStringList('products');
 
-    print(items);
-
     final int quantity = items?.length ?? 0;
 
     return quantity;

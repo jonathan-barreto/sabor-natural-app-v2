@@ -15,6 +15,12 @@ class CartStore extends ValueNotifier<RawState> {
 
     final List<ProductModel> products = await repository.fetchCartProducts();
 
+    await Future.delayed(
+      const Duration(
+        seconds: 1,
+      ),
+    );
+
     value = SuccessState<CartState>(
       output: CartState.fetchProducts(
         listProducts: products,
